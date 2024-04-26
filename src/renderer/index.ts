@@ -58,7 +58,7 @@ export const onSettingWindowCreated = async (view: HTMLElement) => {
     '<setting-item>',
     '<div>',
     '<setting-text>版本号</setting-text>',
-    `<setting-text data-type="secondary">${await globalThis.LiteLoader.plugin.slug.manifest.version}</setting-text>`,
+    `<setting-text data-type="secondary">${await globalThis.LiteLoader.plugins.slug.manifest.version}</setting-text>`,
     '</div>',
     '</setting-item>',
     '</setting-list>',

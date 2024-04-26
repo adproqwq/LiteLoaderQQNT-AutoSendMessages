@@ -20,9 +20,9 @@ export interface ILiteLoaderManifestConfig {
   dependencies?: string[];
 
   platform: [
-    "win32"?,
-    "linux"?,
-    "darwin"?,
+    'win32'?,
+    'linux'?,
+    'darwin'?,
   ];
 
   injects: {
