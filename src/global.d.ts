@@ -1,5 +1,7 @@
 /// <reference types="vite/client" />
 
+import { ILiteLoaderManifestConfig } from './config/manifest';
+
 declare namespace LiteLoader {
   const path: ILiteLoaderPath;
   const versions: ILiteLoaderVersion;
@@ -38,7 +40,7 @@ declare namespace LiteLoader {
   }
 
   interface ILiteLoaderPlugin {
-    manifest: object,
+    manifest: ILiteLoaderManifestConfig,
     incompatible: boolean,
     disabled: boolean,
     path: ILiteLoaderPluginPath
