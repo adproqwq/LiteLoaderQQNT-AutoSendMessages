@@ -81,6 +81,10 @@ export const onSettingWindowCreated = async (view: HTMLElement) => {
     await globalThis.LiteLoader.api.config.set('auto_send_messages', userConfig);
   });
 
+  (doms.body.querySelector('#github') as HTMLButtonElement).addEventListener('click', () => {
+    globalThis.LiteLoader.api.openExternal('https://github.com/adproqwq/LiteLoaderQQNT-AutoSendMessages');
+  });
+
   doms.body.childNodes.forEach((dom) => {
     view.appendChild(dom);
   });
