@@ -1,9 +1,9 @@
 {
   "manifest_version": 4,
   "type": "extension",
-  "name": "自动发送消息",
+  "name": "定时消息",
   "slug": "auto_send_messages",
-  "description": "自动发送消息，允许定时发送、定群发送、自定义消息内容",
+  "description": "定时自动发送消息，允许定时发送、定群发送、自定义消息内容",
   "version": "1.1.0",
   "icon": null,
   "thumb": null,
