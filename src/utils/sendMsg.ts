@@ -2,11 +2,11 @@ import dayjs from 'dayjs';
 import toArray from 'dayjs/plugin/toArray';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { Group, MessageChain, PlainText } from '../../LiteLoaderQQNT-Euphony/src';
-import config from '../config/config';
+import { config, ISettingConfig } from '../config/config';
 
 export default () => {
   setInterval(async () => {
-    let userConfig = await globalThis.LiteLoader.api.config.get('auto_send_messages', config);
+    let userConfig: ISettingConfig = await globalThis.LiteLoader.api.config.get('auto_send_messages', config);
   
     dayjs.extend(toArray);
     dayjs.extend(customParseFormat);
