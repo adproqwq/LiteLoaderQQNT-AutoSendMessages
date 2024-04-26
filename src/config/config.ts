@@ -1,6 +1,6 @@
 export const config: ISettingConfig = {
   message: '',
-  group: '',
+  groups: [],
   time: '',
   isTodayAction: false,
 };
@@ -8,7 +8,7 @@ export const config: ISettingConfig = {
 export interface ISettingConfig {
   message: string;
 
-  group: string;
+  groups: string[];
 
   time: string;
 

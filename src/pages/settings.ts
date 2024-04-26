@@ -11,7 +11,7 @@ export default `<setting-section data-title="常规">
       <setting-item>
         <div>
           <setting-text>发送群聊</setting-text>
-          <setting-text data-type="secondary">要发送的群聊，填入群号。目前仅支持单个群聊。</setting-text>
+          <setting-text data-type="secondary">要发送的群聊，填入群号。多个群聊之间用英文;间隔。</setting-text>
           <input id="group" type="text"></input>
         </div>
       </setting-item>

@@ -13,7 +13,7 @@ export const onSettingWindowCreated = async (view: HTMLElement) => {
 
   view.innerHTML = settingsPage;
   (view.querySelector('#messageContent') as HTMLInputElement).value = userConfig.message;
-  (view.querySelector('#group') as HTMLInputElement).value = userConfig.group;
+  (view.querySelector('#group') as HTMLInputElement).value = userConfig.groups.join(';');
   (view.querySelector('#time') as HTMLInputElement).value = userConfig.time;
   (view.querySelector('#pluginVersion') as HTMLParagraphElement).innerHTML = globalThis.LiteLoader.plugins.auto_send_messages.manifest.version;
 
@@ -23,7 +23,7 @@ export const onSettingWindowCreated = async (view: HTMLElement) => {
   });
 
   (view.querySelector('#group') as HTMLInputElement).addEventListener('change', async (e) => {
-    userConfig.group = (e.target as HTMLInputElement).value;
+    userConfig.groups = (e.target as HTMLInputElement).value.split(';');
     await globalThis.LiteLoader.api.config.set('auto_send_messages', userConfig);
   });
 

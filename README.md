@@ -3,7 +3,7 @@
 本插件支持：
 1. 定时发送
 2. 发送指定消息
-3. 发送到指定群聊
+3. 发送到指定群聊（支持多群）
 
 ## 说明
 1. 本插件依赖[Euphony](https://github.com/xtaw/LiteLoaderQQNT-Euphony)API，请在安装本插件前确保已安装`Euphony`。
