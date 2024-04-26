@@ -2,27 +2,24 @@ import dayjs from 'dayjs';
 import toArray from 'dayjs/plugin/toArray';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { Group, MessageChain, PlainText } from '../../LiteLoaderQQNT-Euphony/src';
+import config from '../config/config';
 
 export default () => {
   setInterval(async () => {
-    let config = {
-      message: '',
-      group: '',
-      time: '',
-    };
-  
-    config = await globalThis.LiteLoader.api.config.get('auto_send_messages', config);
+    let userConfig = await globalThis.LiteLoader.api.config.get('auto_send_messages', config);
   
     dayjs.extend(toArray);
     dayjs.extend(customParseFormat);
-    const formatedTime = dayjs(config.time, 'HH:mm').toArray();
-    if(formatedTime[3] == dayjs().get('hour') && formatedTime[4] == dayjs().get('minute')){
-      const group = Group.make(config.group);
+    const formatedActionTime = dayjs(userConfig.time, 'HH:mm').toArray();
+    if(formatedActionTime[3] == dayjs().get('hour') && formatedActionTime[4] == dayjs().get('minute') && !userConfig.isTodayAction){
+      const group = Group.make(userConfig.group);
       group.sendMessage(
         new MessageChain().append(
-          new PlainText(config.message)
+          new PlainText(userConfig.message)
         )
       );
+      userConfig.isTodayAction = true;
+      await globalThis.LiteLoader.api.config.set('auto_send_messages', userConfig);
     }
   }, 60000);
 };
