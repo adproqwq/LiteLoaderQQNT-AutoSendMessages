@@ -1,43 +1,17 @@
-import { Cache, Friend, Group } from '../index.js';
+import { Friend, Group } from '../index.js';
 
 /**
  * `Client` 类型代表自身客户端。
- * 
- * @property { Array } #friends 客户端好友列表。
  */
 class Client {
-
-    static #friends = [];
-    static #groups = [];
-
-    static {
-        euphonyNative.subscribeEvent('onBuddyListChange', payload => {
-            const friends = [];
-            for (const category of payload.data) {
-                for (const buddy of category.buddyList) {
-                    friends.push(Friend.make(buddy.uin, buddy.uid));
-                }
-            }
-            Client.#friends = friends;
-        });
-        euphonyNative.subscribeEvent('onGroupListUpdate', payload => {
-            if (payload.updateType == 1) {
-                const groups = [];
-                for (const nativeGroup of payload.groupList) {
-                    groups.push(Group.make(nativeGroup.groupCode));
-                }
-                Client.#groups = groups;
-            }
-        });
-    }
 
     /**
      * 获取客户端登录账号的 **qq号**。
      * 
      * @returns { String } 客户端登录账号的 **qq号**。
      */
-    static async getUin() {
-        return await Cache.withCacheAsync('client-uin', async () => (await euphonyNative.invokeNative('ns-GlobalDataApi', 'fetchAuthData', false)).uin);
+    static getUin() {
+        return app?.__vue_app__?.config?.globalProperties?.$store?.state?.common_Auth?.authData?.uin;
     }
 
     /**
@@ -45,8 +19,8 @@ class Client {
      * 
      * @returns { String } 客户端登录账号的 **uid**。 
      */
-    static async getUid() {
-        return await Cache.withCacheAsync('client-uid', async () => (await euphonyNative.invokeNative('ns-GlobalDataApi', 'fetchAuthData', false)).uid);
+    static getUid() {
+        return app?.__vue_app__?.config?.globalProperties?.$store?.state?.common_Auth?.authData?.uid;
     }
 
     /**
@@ -55,7 +29,15 @@ class Client {
      * @returns { Array<Friend> } 客户端好友列表。
      */
     static getFriends() {
-        return Client.#friends;
+        const buddyMap = app?.__vue_app__?.config?.globalProperties?.$store?.state?.common_Contact_buddy?.buddyMap;
+        if (!buddyMap) {
+            return null;
+        }
+        const result = [];
+        for (const uid in buddyMap) {
+            result.push(Friend.make(buddyMap[uid].uin, uid));
+        }
+        return result;
     }
 
     /**
@@ -64,7 +46,15 @@ class Client {
      * @returns { Array<Group> } 客户端群列表。
      */
     static getGroups() {
-        return Client.#groups;
+        const groupList = app?.__vue_app__?.config?.globalProperties?.$store?.state?.common_Contact_group?.groupList;
+        if (!groupList) {
+            return null;
+        }
+        const result = [];
+        for (const nativeGroup of groupList) {
+            result.push(Group.make(nativeGroup.groupCode));
+        }
+        return result;
     }
 
 }

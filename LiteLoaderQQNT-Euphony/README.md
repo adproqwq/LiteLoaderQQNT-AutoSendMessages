@@ -34,21 +34,21 @@ group.sendMessage(new MessageChain().append(new AtAll('Content')).append(new Pla
 # 三. API介绍
 你可以在这里查看所有API介绍：[API文档](https://xtaw.github.io/LiteLoaderQQNT-Euphony/)
 
-请注意，由于 **Euphony** 目前正处于开发初期，各 API 尚未完全实现，也并不稳定，很可能在将来发生很大变化。
+请注意，由于 **Euphony** 目前正处于开发初期，各 API 并不稳定，很可能在将来发生很大变化。
 ## 1. Native
 **Euphony** 在 `preload.js` 中导出了 `euphonyNative` 对象用于一些与 qq 底层交互的操作。
 你可以在 [API文档](https://xtaw.github.io/LiteLoaderQQNT-Euphony/) 中的 **Global** 部分查看详情介绍。
-## 2. 基础事件
+## 2. 封装事件
 ###  示例
 ```js
 import { EventChannel } from '../LiteLoaderQQNT-Euphony/src/index.js';
-const eventChannel = EventChannel.fromNative();
+const eventChannel = EventChannel.withTriggers();
 eventChannel.subscribeEvent('receive-message', (message, source) => {
-    console.log(message);
-    console.log(source);
+    console.log(message.contentToString());
+    console.log(source.getContact().getId());
 });
 ```
-上面这段代码会监听 **receive-message** 事件，并输出事件参数。
+上面这段代码会监听 **receive-message** 事件，并输出消息的字符串形式及消息发送者的 **id**。
 ### (1). receive-message
 该事件触发于当qq接收到新消息时。
 

@@ -1,4 +1,4 @@
-import { At, AtAll, PlainText, SingleMessage } from '../index.js';
+import { At, AtAll, Audio, Image, PlainText, SingleMessage } from '../index.js';
 
 /**
  * `MessageChain` 类型代表一条完整的消息，由多个 `SingleMessage` 组成。
@@ -10,6 +10,20 @@ class MessageChain {
     #messages = [];
 
     /**
+     * 从原生消息链构造出一个 `MessageChain` 对象。
+     * 
+     * @param { Native } elements 原生消息链。
+     * @returns { MessageChain } 原生消息链所对应的 `MessageChain` 对象。
+     */
+    static fromNative(elements) {
+        const result = new MessageChain();
+        for (const element of elements) {
+            result.append(SingleMessage.fromNative(element));
+        }
+        return result;
+    }
+
+    /**
      * 将一个消息元素添加至该消息链中。
      * 
      * @param { SingleMessage } value 要添加的消息元素。
@@ -17,30 +31,6 @@ class MessageChain {
      */
     append(value) {
         this.#messages.push(value);
-        return this;
-    }
-
-    /**
-     * 将一个消息元素添加至该消息链中。
-     * 
-     * @param { Native } element 要添加的原生消息元素。
-     * @returns { MessageChain } 该消息链。
-     */
-    appendNative(element) {
-        this.#messages.push(SingleMessage.fromNative(element));
-        return this;
-    }
-
-    /**
-     * 将一个消息链添加至该消息链中。
-     * 
-     * @param { Native } elements 要添加的原生消息链。
-     * @returns { MessageChain } 该消息链。
-     */
-    appendNatives(elements) {
-        for (const element of elements) {
-            this.appendNative(element);
-        }
         return this;
     }
 
@@ -84,7 +74,7 @@ class MessageChain {
      * 
      * `Audio` 将会被视为 "[语音]"。
      * 
-     * 但由于 `At` 类型不包括群消息，目前 `At` 只会被视为 "**@qq号**" 的形式。
+     * 但由于 `At` 类型不包括群信息，目前 `At` 只会被视为 "**@qq号**" 的形式。
      * 
      * @returns { String } 转化后的字符串。
      */
