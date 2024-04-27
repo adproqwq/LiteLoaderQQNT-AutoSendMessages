@@ -1,9 +1,17 @@
 # LiteLoaderQQNT-AutoSendMessages
 
+## 目前支持
 本插件支持：
 1. 定时发送
 2. 发送指定消息
 3. 发送到指定群聊（支持多群）
+
+## 计划支持
+1. 支持发送带@信息
+2. 支持私聊
+
+## 不会支持
+1. 发送@全体成员信息
 
 ## 说明
 1. 本插件依赖[Euphony](https://github.com/xtaw/LiteLoaderQQNT-Euphony)API，请在安装本插件前确保已安装`Euphony`。
