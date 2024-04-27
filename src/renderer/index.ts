@@ -12,18 +12,30 @@ export const onSettingWindowCreated = async (view: HTMLElement) => {
   let userConfig: ISettingConfig = await globalThis.LiteLoader.api.config.get('auto_send_messages', config);
 
   view.innerHTML = settingsPage;
-  (view.querySelector('#messageContent') as HTMLInputElement).value = userConfig.message;
-  (view.querySelector('#group') as HTMLInputElement).value = userConfig.groups.join(';');
+  (view.querySelector('#groupsMessageContent') as HTMLInputElement).value = userConfig.messages.groups;
+  (view.querySelector('#groups') as HTMLInputElement).value = userConfig.groups.join(';');
+  (view.querySelector('#chatsMessageContent') as HTMLInputElement).value = userConfig.messages.chats;
+  (view.querySelector('#chats') as HTMLInputElement).value = userConfig.chats.join(';');
   (view.querySelector('#time') as HTMLInputElement).value = userConfig.time;
   (view.querySelector('#pluginVersion') as HTMLParagraphElement).innerHTML = globalThis.LiteLoader.plugins.auto_send_messages.manifest.version;
 
-  (view.querySelector('#messageContent') as HTMLInputElement).addEventListener('change', async (e) => {
-    userConfig.message = (e.target as HTMLInputElement).value;
+  (view.querySelector('#groupsMessageContent') as HTMLInputElement).addEventListener('change', async (e) => {
+    userConfig.messages.groups = (e.target as HTMLInputElement).value;
     await globalThis.LiteLoader.api.config.set('auto_send_messages', userConfig);
   });
 
-  (view.querySelector('#group') as HTMLInputElement).addEventListener('change', async (e) => {
+  (view.querySelector('#groups') as HTMLInputElement).addEventListener('change', async (e) => {
     userConfig.groups = (e.target as HTMLInputElement).value.split(';');
+    await globalThis.LiteLoader.api.config.set('auto_send_messages', userConfig);
+  });
+
+  (view.querySelector('#chats') as HTMLInputElement).addEventListener('change', async (e) => {
+    userConfig.chats = (e.target as HTMLInputElement).value.split(';');
+    await globalThis.LiteLoader.api.config.set('auto_send_messages', userConfig);
+  });
+
+  (view.querySelector('#chatsMessageContent') as HTMLInputElement).addEventListener('change', async (e) => {
+    userConfig.messages.chats = (e.target as HTMLInputElement).value;
     await globalThis.LiteLoader.api.config.set('auto_send_messages', userConfig);
   });
 
@@ -34,5 +46,9 @@ export const onSettingWindowCreated = async (view: HTMLElement) => {
 
   (view.querySelector('#github') as HTMLButtonElement).addEventListener('click', () => {
     globalThis.LiteLoader.api.openExternal('https://github.com/adproqwq/LiteLoaderQQNT-AutoSendMessages');
+  });
+
+  (view.querySelector('#fixDataFormat') as HTMLButtonElement).addEventListener('click', async () => {
+    await globalThis.LiteLoader.api.config.set('auto_send_messages', config);
   });
 };
