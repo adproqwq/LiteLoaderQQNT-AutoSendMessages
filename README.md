@@ -17,6 +17,11 @@
 1. 本插件依赖[Euphony](https://github.com/xtaw/LiteLoaderQQNT-Euphony)API，请在安装本插件前确保已安装`Euphony`。
 2. 本插件处于早期开发版本，所有功能仅限能用，且仅支持部分功能。
 
+## 安装方法
+1. 下载最新 [发行版](https://github.com/adproqwq/LiteLoaderQQNT-AutoSendMessages/releases) 并解压
+2. 将文件夹移动至 `LiteLoaderQQNT数据目录/plugins/` 下面
+3. 重启QQNT即可
+
 ## 鸣谢
 * [LiteLoaderQQNT](https://github.com/LiteLoaderQQNT/LiteLoaderQQNT/)
 * [LiteLoaderQQNT-PluginTemplate-Vite](https://github.com/MisaLiu/LiteLoaderQQNT-PluginTemplate-Vite)
