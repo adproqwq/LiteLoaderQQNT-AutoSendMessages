@@ -80,6 +80,13 @@ export default `<setting-section data-title="通用">
       </setting-item>
       <setting-item>
         <div>
+          <setting-text>高级语法教程</setting-text>
+          <setting-text data-type="secondary">https://github.com/adproqwq/LiteLoaderQQNT-AutoSendMessages/blob/main/tutoril.md</setting-text>
+          <setting-button id="tutoril" data-type="secondary">去看看</setting-button>
+        </div>
+      </setting-item>
+      <setting-item>
+        <div>
           <setting-text>作者</setting-text>
           <setting-text data-type="secondary">adproqwq(Adpro)</setting-text>
         </div>

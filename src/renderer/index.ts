@@ -48,6 +48,10 @@ export const onSettingWindowCreated = async (view: HTMLElement) => {
     globalThis.LiteLoader.api.openExternal('https://github.com/adproqwq/LiteLoaderQQNT-AutoSendMessages');
   });
 
+  (view.querySelector('#tutoril') as HTMLButtonElement).addEventListener('click', () => {
+    globalThis.LiteLoader.api.openExternal('https://github.com/adproqwq/LiteLoaderQQNT-AutoSendMessages/blob/main/tutoril.md');
+  });
+
   (view.querySelector('#fixDataFormat') as HTMLButtonElement).addEventListener('click', async () => {
     await globalThis.LiteLoader.api.config.set('auto_send_messages', config);
   });
