@@ -1,10 +1,22 @@
-export default `<setting-section data-title="通用">
+export default `
+<style>
+  .auto_send_messages input {
+    align-self: normal;
+    flex: 1;
+    border-radius: 4px;
+    margin-right: 12px;
+    padding: 2px 4px;
+    transition: all 100ms ease-out;
+  }
+</style>
+
+<setting-section data-title="通用">
   <setting-panel>
     <setting-list data-direction="column">
       <setting-item>
         <div>
           <setting-text>定时发送时间</setting-text>
-          <setting-text data-type="secondary">发送时间，填入 HH:mm 格式的时间。目前仅支持每一天。</setting-text>
+          <setting-text data-type="secondary">发送时间，填入 HH:mm 格式的时间。仅支持每一天。</setting-text>
           <input id="time" type="text"></input>
         </div>
       </setting-item>
