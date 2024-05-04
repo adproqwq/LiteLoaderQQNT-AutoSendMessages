@@ -17,7 +17,9 @@ body:
     attributes:
       label: 请确保您已阅读以上注意事项，并勾选下方的确认框。
       options:
-        - label: "我已经使用一个仅安装本插件的环境测试过，问题依旧存在。"
+        - label: "我已经正确安装了Euphony插件作为依赖，问题依旧存在。"
+          required: true
+        - label: "我已经使用一个仅安装本插件及依赖插件的环境测试过，问题依旧存在。"
           required: true
         - label: "我已经尝试过删除该插件的配置文件并重启 QQ，问题依旧存在。"
           required: true
@@ -47,6 +49,13 @@ body:
     id: env-Plugin-ver
     attributes:
       label: 本插件 版本
+    validations:
+      required: true
+
+  - type: input
+    id: env-DepPlugin-ver
+    attributes:
+      label: Euphony插件 版本
     validations:
       required: true
 
