@@ -4,7 +4,7 @@
   "name": "定时消息",
   "slug": "auto_send_messages",
   "description": "定时自动发送消息，允许定时发送、定群发送、自定义消息内容",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "icon": null,
   "thumb": null,
   "authors": [
@@ -19,7 +19,8 @@
     "darwin"
   ],
   "dependencies": [
-    "euphony"
+    "euphony",
+    "LiteLoaderQQNT_CheckUpdateModule"
   ],
   "injects": {
     "main": "./main/index.js",
@@ -29,8 +30,8 @@
     "repo": "adproqwq/LiteLoaderQQNT-AutoSendMessages",
     "branch": "main",
     "release": {
-      "tag": "v1.3.1",
-      "file": "auto_send_messages"
+      "tag": "v1.3.2",
+      "file": "auto_send_messages.zip"
     }
   }
 }

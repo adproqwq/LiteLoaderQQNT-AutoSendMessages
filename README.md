@@ -16,7 +16,12 @@
 1. 发送@全体成员信息
 
 ## 说明
-本插件依赖[Euphony](https://github.com/xtaw/LiteLoaderQQNT-Euphony)API，请在安装本插件前确保已安装`Euphony`。
+本插件依赖于
+
+1. [Euphony](https://github.com/xtaw/LiteLoaderQQNT-Euphony) - 用于提供发送消息接口
+2. [插件检测更新API](https://github.com/adproqwq/LiteLoaderQQNT-CheckUpdateModule) - 用于自动检测更新并下载
+
+请在安装本插件前确保已安装以上插件。
 
 ## 安装方法
 1. 下载最新 [发行版](https://github.com/adproqwq/LiteLoaderQQNT-AutoSendMessages/releases) 并解压
