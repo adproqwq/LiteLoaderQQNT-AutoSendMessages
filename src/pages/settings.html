@@ -1,15 +1,3 @@
-export default `
-<style>
-  .auto_send_messages input {
-    align-self: normal;
-    flex: 1;
-    border-radius: 4px;
-    margin-right: 12px;
-    padding: 2px 4px;
-    transition: all 100ms ease-out;
-  }
-</style>
-
 <setting-section data-title="通用">
   <setting-panel>
     <setting-list data-direction="column">
@@ -36,6 +24,15 @@ export default `
       </setting-item>
       <setting-item>
         <div>
+          <setting-text>发送图片</setting-text>
+          <setting-text data-type="secondary">要发送的图片</setting-text>
+          <input id="groupsPicturePath" type="text" placeholder="重新打开设置页面刷新此处显示的地址"></input>
+          <setting-button id="openPictureGroups" data-type="secondary">选择图片</setting-button>
+          <setting-button id="rmPictureGroups" data-type="secondary">移除选择</setting-button>
+        </div>
+      </setting-item>
+      <setting-item>
+        <div>
           <setting-text>发送群聊</setting-text>
           <setting-text data-type="secondary">要发送的群聊，填入群号。多个群聊之间用英文;间隔。</setting-text>
           <input id="groups" type="text"></input>
@@ -53,6 +50,15 @@ export default `
           <setting-text>消息内容</setting-text>
           <setting-text data-type="secondary">要发送的消息内容</setting-text>
           <input id="chatsMessageContent" type="text"></input>
+        </div>
+      </setting-item>
+      <setting-item>
+        <div>
+          <setting-text>发送图片</setting-text>
+          <setting-text data-type="secondary">要发送的图片</setting-text>
+          <input id="chatsPicturePath" type="text" placeholder="重新打开设置页面刷新此处显示的地址"></input>
+          <setting-button id="openPictureChats" data-type="secondary">选择图片</setting-button>
+          <setting-button id="rmPictureChats" data-type="secondary">移除选择</setting-button>
         </div>
       </setting-item>
       <setting-item>
@@ -111,4 +117,4 @@ export default `
       </setting-item>
     </setting-list>
   </setting-panel>
-</setting-section>`
+</setting-section>

@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import toArray from 'dayjs/plugin/toArray';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { Group, Friend } from '../../LiteLoaderQQNT-Euphony/src';
+import { Group, Friend, Image } from '../../LiteLoaderQQNT-Euphony/src';
 import { config, ISettingConfig } from '../config/config';
 import parseMsg from './parseMsg';
 
@@ -15,7 +15,9 @@ export default () => {
     if(formatedActionTime[3] == dayjs().get('hour') && formatedActionTime[4] == dayjs().get('minute') && !userConfig.isTodayAction.groups){
       userConfig.groups.forEach((g) => {
         const group = Group.make(g);
-        group.sendMessage(parseMsg(userConfig.messages.groups));
+        const messageChain = parseMsg(userConfig.messages.groups);
+        if(userConfig.pictures.groups !== '') messageChain.append(new Image(userConfig.pictures.groups));
+        group.sendMessage(messageChain);
       });
       userConfig.isTodayAction.groups = true;
       await globalThis.LiteLoader.api.config.set('auto_send_messages', userConfig);
@@ -24,7 +26,9 @@ export default () => {
     if(formatedActionTime[3] == dayjs().get('hour') && formatedActionTime[4] == dayjs().get('minute') && !userConfig.isTodayAction.chats){
       userConfig.chats.forEach((c) => {
         const friend = Friend.fromUin(c);
-        friend.sendMessage(parseMsg(userConfig.messages.chats));
+        const messageChain = parseMsg(userConfig.messages.chats);
+        if(userConfig.pictures.chats !== '') messageChain.append(new Image(userConfig.pictures.chats));
+        friend.sendMessage(messageChain);
       });
       userConfig.isTodayAction.chats = true;
       await globalThis.LiteLoader.api.config.set('auto_send_messages', userConfig);

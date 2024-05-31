@@ -1,28 +1,33 @@
-import { BrowserWindow, app, dialog } from 'electron';
+import { app, dialog, ipcMain } from 'electron';
+import { config, ISettingConfig } from '../config/config';
+import { normalize } from 'node:path';
+
+ipcMain.on('LLASM.openFileDialog', (_, type: 'chats' | 'groups') => {
+  dialog.showOpenDialog({
+    title: '请选择图片',
+    buttonLabel: '使用该图片',
+    filters: [
+      {
+        name: 'Images',
+        extensions: ['jpg', 'png', 'gif']
+      },
+    ],
+    properties: ['openFile', 'showHiddenFiles'],
+  }).then(async (r) => {
+    if(!r.canceled){
+      let userConfig: ISettingConfig = await LiteLoader.api.config.get('auto_send_messages', config);
+      userConfig.pictures[type] = normalize(r.filePaths[0]);
+      await LiteLoader.api.config.set('auto_send_messages', userConfig);
+    }
+  });
+});
 
 app.whenReady().then(async () => {
   const isHaveUpdate = await LiteLoader.api.checkUpdate('auto_send_messages');
   if(isHaveUpdate){
     const updateResult = await LiteLoader.api.downloadUpdate('auto_send_messages');
     if(updateResult){
-      dialog.showMessageBox(new BrowserWindow(), {
-        title: '插件已更新，需要重启',
-        message: '定时消息 插件已更新，需要重启',
-        type: 'warning',
-        buttons: ['现在重启', '稍后自行重启'],
-        cancelId: 1,
-        defaultId: 0,
-      }).then((c) => {
-        if(c.response == 0){
-          app.relaunch();
-          app.exit();
-        }
-      });
+      LiteLoader.api.showRelaunchDialog('auto_send_messages', true);
     }
   }
 });
-
-export const onBrowserWindowCreated = (window: BrowserWindow) => {
-  console.log('[auto_send_message] 窗口已创建');
-  console.log('[auto_send_message] 窗口信息：', window);
-};

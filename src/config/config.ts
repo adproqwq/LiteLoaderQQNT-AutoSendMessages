@@ -3,6 +3,10 @@ export const config: ISettingConfig = {
     groups: '',
     chats: '',
   },
+  pictures: {
+    groups: '',
+    chats: '',
+  },
   groups: [],
   chats: [],
   time: '',
@@ -26,6 +30,8 @@ export interface ISettingIsActionConfig {
 
 export interface ISettingConfig {
   messages: ISettingMessageConfig;
+
+  pictures: ISettingMessageConfig;
 
   groups: string[];
 

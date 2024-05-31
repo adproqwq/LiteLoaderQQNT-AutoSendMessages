@@ -54,6 +54,10 @@ declare interface ILiteLoaderManifestAuthorsConfig {
   link: string;
 };
 
+declare namespace LLASM {
+  const openFileDialog: (type: 'chats' | 'groups') => void;
+}
+
 declare namespace LiteLoader {
   const path: ILiteLoaderPath;
   const versions: ILiteLoaderVersion;
@@ -116,6 +120,7 @@ declare namespace LiteLoader {
     disablePlugin: (slug: string) => void,
     checkUpdate: (slug: string, type?: string) => Promise<boolean | null>,
     downloadUpdate: (slug: string, url?: string) => Promise<boolean | null>,
+    showRelaunchDialog: (slug: string, showChangeLog?: boolean, changeLogFile?: string) => void,
     config: ILiteLoaderAPIConfig,
   }
 
