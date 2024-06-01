@@ -56,6 +56,7 @@ export default defineConfig({
       viteCp({
         targets: [
           { src: './manifest.json', dest: 'dist' },
+          { src: './changeLog.md', dest: 'dist' },
           { src: './src/pages', dest: 'dist/pages' },
           { src: './assets', dest: 'dist/assets' },
         ],
