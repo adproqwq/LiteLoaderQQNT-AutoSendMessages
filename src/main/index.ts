@@ -1,5 +1,5 @@
 import { app, dialog, ipcMain } from 'electron';
-import { config, ISettingConfig } from '../config/config';
+import { config, IConfig } from '../config/config';
 import { normalize } from 'node:path';
 
 ipcMain.on('LLASM.openFileDialog', (_, type: 'chats' | 'groups', index: number) => {
@@ -15,8 +15,8 @@ ipcMain.on('LLASM.openFileDialog', (_, type: 'chats' | 'groups', index: number) 
     properties: ['openFile', 'showHiddenFiles'],
   }).then(async (r) => {
     if(!r.canceled){
-      let userConfig: ISettingConfig[]= await LiteLoader.api.config.get('auto_send_messages', config);
-      userConfig[index].pictures[type] = normalize(r.filePaths[0]);
+      let userConfig: IConfig= await LiteLoader.api.config.get('auto_send_messages', config);
+      userConfig.data[index].pictures[type] = normalize(r.filePaths[0]);
       await LiteLoader.api.config.set('auto_send_messages', userConfig);
     }
   });

@@ -2,22 +2,19 @@ import dayjs from 'dayjs';
 import toArray from 'dayjs/plugin/toArray';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { Group, Friend, Image } from '../../LiteLoaderQQNT-Euphony/src';
-import { config, ISettingConfig } from '../config/config';
+import { config, IConfig, ISettingConfig } from '../config/config';
 import parseMsg from './parseMsg';
 import getCurrentUin from './getCurrentUin';
 
 export default () => {
   setInterval(async () => {
-    let userConfig: ISettingConfig[] = await globalThis.LiteLoader.api.config.get('auto_send_messages', config);
-    let currentConfigIndex = 0;
+    let userConfig: IConfig = await globalThis.LiteLoader.api.config.get('auto_send_messages', config);
+    let currentConfigIndex = -1;
     const uin = getCurrentUin();
-    const currentConfig = userConfig.filter((c, i) => {
-      if(c.uin == uin){
-        currentConfigIndex = i;
-        return true;
-      }
-      return false;
-    })[0];
+    userConfig.data.forEach((c, i) => {
+      if(c.uin == uin) currentConfigIndex = i;
+    });
+    let currentConfig: ISettingConfig = userConfig.data[currentConfigIndex];
 
     dayjs.extend(toArray);
     dayjs.extend(customParseFormat);
@@ -30,7 +27,7 @@ export default () => {
         setTimeout(() => group.sendMessage(messageChain), 2000 * Math.random());
       });
       currentConfig.isTodayAction.groups = true;
-      userConfig[currentConfigIndex] = currentConfig;
+      userConfig.data[currentConfigIndex] = currentConfig;
       await LiteLoader.api.config.set('auto_send_messages', userConfig);
     }
 
@@ -42,7 +39,7 @@ export default () => {
         setTimeout(() => friend.sendMessage(messageChain), 2000 * Math.random());
       });
       currentConfig.isTodayAction.chats = true;
-      userConfig[currentConfigIndex] = currentConfig;
+      userConfig.data[currentConfigIndex] = currentConfig;
       await LiteLoader.api.config.set('auto_send_messages', userConfig);
     }
 
@@ -50,7 +47,7 @@ export default () => {
     if(dayjs(currentConfig.time, 'HH:mm').isBefore(dayjs(currentTime, 'HH:mm'))){
       currentConfig.isTodayAction.chats = false;
       currentConfig.isTodayAction.groups = false;
-      userConfig[currentConfigIndex] = currentConfig;
+      userConfig.data[currentConfigIndex] = currentConfig;
       await LiteLoader.api.config.set('auto_send_messages', userConfig);
     }
   }, 60000);
