@@ -17,7 +17,7 @@ export default () => {
         const group = Group.make(g);
         const messageChain = parseMsg(userConfig.messages.groups);
         if(userConfig.pictures.groups !== '') messageChain.append(new Image(userConfig.pictures.groups));
-        group.sendMessage(messageChain);
+        setTimeout(() => group.sendMessage(messageChain), 2000 * Math.random());
       });
       userConfig.isTodayAction.groups = true;
       await globalThis.LiteLoader.api.config.set('auto_send_messages', userConfig);
@@ -28,7 +28,7 @@ export default () => {
         const friend = Friend.fromUin(c);
         const messageChain = parseMsg(userConfig.messages.chats);
         if(userConfig.pictures.chats !== '') messageChain.append(new Image(userConfig.pictures.chats));
-        friend.sendMessage(messageChain);
+        setTimeout(() => friend.sendMessage(messageChain), 2000 * Math.random());
       });
       userConfig.isTodayAction.chats = true;
       await globalThis.LiteLoader.api.config.set('auto_send_messages', userConfig);
