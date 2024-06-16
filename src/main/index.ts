@@ -2,7 +2,7 @@ import { app, dialog, ipcMain } from 'electron';
 import { config, ISettingConfig } from '../config/config';
 import { normalize } from 'node:path';
 
-ipcMain.on('LLASM.openFileDialog', (_, type: 'chats' | 'groups') => {
+ipcMain.on('LLASM.openFileDialog', (_, type: 'chats' | 'groups', index: number) => {
   dialog.showOpenDialog({
     title: '请选择图片',
     buttonLabel: '使用该图片',
@@ -15,8 +15,8 @@ ipcMain.on('LLASM.openFileDialog', (_, type: 'chats' | 'groups') => {
     properties: ['openFile', 'showHiddenFiles'],
   }).then(async (r) => {
     if(!r.canceled){
-      let userConfig: ISettingConfig = await LiteLoader.api.config.get('auto_send_messages', config);
-      userConfig.pictures[type] = normalize(r.filePaths[0]);
+      let userConfig: ISettingConfig[]= await LiteLoader.api.config.get('auto_send_messages', config);
+      userConfig[index].pictures[type] = normalize(r.filePaths[0]);
       await LiteLoader.api.config.set('auto_send_messages', userConfig);
     }
   });
