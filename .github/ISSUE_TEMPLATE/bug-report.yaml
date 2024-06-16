@@ -53,9 +53,16 @@ body:
       required: true
 
   - type: input
-    id: env-DepPlugin-ver
+    id: env-DepCUMPlugin-ver
     attributes:
       label: 插件检测更新API插件 版本
+    validations:
+      required: true
+
+  - type: input
+    id: env-DepEPlugin-ver
+    attributes:
+      label: Euphony插件 版本
     validations:
       required: true
 
