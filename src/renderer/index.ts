@@ -1,10 +1,7 @@
 import sendMsg from '../utils/sendMsg';
 import { config, ISettingConfig } from '../config/config';
 
-const onload = () => {
-  console.log('[auto_send_message] 渲染进程工作');
-  sendMsg();
-};
+const onload = () => sendMsg();
 onload();
 
 export const onSettingWindowCreated = async (view: HTMLElement) => {
