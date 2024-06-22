@@ -5,7 +5,7 @@ import { config, IConfig, ISettingConfig } from '../config/config';
 const onload = () => sendMsg();
 onload();
 
-export const onSettingWindowCreated = async (view: HTMLElement) => {
+const getUserConfig = async (): Promise<[IConfig, ISettingConfig, number]> => {
   let userConfig: IConfig = await LiteLoader.api.config.get('auto_send_messages', config);
   let currentConfigIndex = -1;
   const uin = getCurrentUin();
@@ -23,10 +23,14 @@ export const onSettingWindowCreated = async (view: HTMLElement) => {
   }
   else currentConfig = userConfig.data[currentConfigIndex];
 
-  const pluginPath = LiteLoader.plugins.auto_send_messages.path.plugin;
-  const settingsPage = await (await fetch(`local:///${pluginPath}/pages/settings.html`)).text();
+  return [userConfig, currentConfig, currentConfigIndex];
+};
 
-  view.innerHTML = settingsPage;
+export const onSettingWindowCreated = async (view: HTMLElement) => {
+  const pluginPath = LiteLoader.plugins.auto_send_messages.path.plugin;
+  let [_, currentConfig, currentConfigIndex] = await getUserConfig();
+
+  view.innerHTML = await (await fetch(`local:///${pluginPath}/pages/settings.html`)).text();
   (view.querySelector('#groupsMessageContent') as HTMLInputElement).value = currentConfig.messages.groups;
   (view.querySelector('#groupsPicturePath') as HTMLInputElement).value = currentConfig.pictures.groups;
   (view.querySelector('#groups') as HTMLInputElement).value = currentConfig.groups.join(';');
@@ -37,6 +41,7 @@ export const onSettingWindowCreated = async (view: HTMLElement) => {
   (view.querySelector('#pluginVersion') as HTMLParagraphElement).innerHTML = LiteLoader.plugins.auto_send_messages.manifest.version;
 
   (view.querySelector('#groupsMessageContent') as HTMLInputElement).addEventListener('change', async (e) => {
+    let [userConfig, currentConfig, currentConfigIndex] = await getUserConfig();
     currentConfig.messages.groups = (e.target as HTMLInputElement).value;
     userConfig.data[currentConfigIndex] = currentConfig;
     await LiteLoader.api.config.set('auto_send_messages', userConfig);
@@ -47,24 +52,28 @@ export const onSettingWindowCreated = async (view: HTMLElement) => {
   });
 
   (view.querySelector('#rmPictureGroups') as HTMLButtonElement).addEventListener('click', async () => {
+    let [userConfig, currentConfig, currentConfigIndex] = await getUserConfig();
     currentConfig.pictures.groups = '';
     userConfig.data[currentConfigIndex] = currentConfig;
     await LiteLoader.api.config.set('auto_send_messages', userConfig);
   });
 
   (view.querySelector('#groups') as HTMLInputElement).addEventListener('change', async (e) => {
+    let [userConfig, currentConfig, currentConfigIndex] = await getUserConfig();
     currentConfig.groups = (e.target as HTMLInputElement).value.split(';');
     userConfig.data[currentConfigIndex] = currentConfig;
     await LiteLoader.api.config.set('auto_send_messages', userConfig);
   });
 
   (view.querySelector('#chats') as HTMLInputElement).addEventListener('change', async (e) => {
+    let [userConfig, currentConfig, currentConfigIndex] = await getUserConfig();
     currentConfig.chats = (e.target as HTMLInputElement).value.split(';');
     userConfig.data[currentConfigIndex] = currentConfig;
     await LiteLoader.api.config.set('auto_send_messages', userConfig);
   });
 
   (view.querySelector('#chatsMessageContent') as HTMLInputElement).addEventListener('change', async (e) => {
+    let [userConfig, currentConfig, currentConfigIndex] = await getUserConfig();
     currentConfig.messages.chats = (e.target as HTMLInputElement).value;
     userConfig.data[currentConfigIndex] = currentConfig;
     await LiteLoader.api.config.set('auto_send_messages', userConfig);
@@ -75,12 +84,14 @@ export const onSettingWindowCreated = async (view: HTMLElement) => {
   });
 
   (view.querySelector('#rmPictureChats') as HTMLButtonElement).addEventListener('click', async () => {
+    let [userConfig, currentConfig, currentConfigIndex] = await getUserConfig();
     currentConfig.pictures.chats = '';
     userConfig.data[currentConfigIndex] = currentConfig;
     await LiteLoader.api.config.set('auto_send_messages', userConfig);
   });
 
   (view.querySelector('#time') as HTMLInputElement).addEventListener('change', async (e) => {
+    let [userConfig, currentConfig, currentConfigIndex] = await getUserConfig();
     currentConfig.time = (e.target as HTMLInputElement).value;
     userConfig.data[currentConfigIndex] = currentConfig;
     await LiteLoader.api.config.set('auto_send_messages', userConfig);
