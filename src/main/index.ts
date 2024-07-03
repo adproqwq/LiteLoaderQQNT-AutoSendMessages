@@ -9,7 +9,7 @@ ipcMain.on('LLASM.openFileDialog', (_, type: 'chats' | 'groups', index: number) 
     filters: [
       {
         name: 'Images',
-        extensions: ['jpg', 'png', 'gif']
+        extensions: ['jpg', 'png', 'gif'],
       },
     ],
     properties: ['openFile', 'showHiddenFiles'],
