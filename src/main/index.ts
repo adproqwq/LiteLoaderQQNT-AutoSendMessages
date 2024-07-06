@@ -24,6 +24,6 @@ ipcMain.on('LLASM.openFileDialog', (_, type: 'chats' | 'groups', index: number) 
 
 app.whenReady().then(async () => {
   if(await LiteLoader.api.checkUpdate('auto_send_messages')){
-    if(await LiteLoader.api.downloadUpdate('auto_send_messages')) LiteLoader.api.showRelaunchDialog('auto_send_messages', true);
+    if(await LiteLoader.api.downloadUpdate('auto_send_messages')) await LiteLoader.api.showRelaunchDialog('auto_send_messages', true);
   }
 });
