@@ -1,54 +1,21 @@
-import dayjs from 'dayjs';
-import toArray from 'dayjs/plugin/toArray';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { Group, Friend, Image } from '../../LiteLoaderQQNT-Euphony/src';
-import { config, IConfig, ISettingConfig } from '../config/config';
 import parseMsg from './parseMsg';
-import getCurrentUin from './getCurrentUin';
 
-export default () => {
-  setInterval(async () => {
-    let userConfig: IConfig = await globalThis.LiteLoader.api.config.get('auto_send_messages', config);
-    let currentConfigIndex = -1;
-    const uin = getCurrentUin();
-    userConfig.data.forEach((c, i) => {
-      if(c.uin == uin) currentConfigIndex = i;
+export default (type: 'groups' | 'chats', targets: string[], msg: string, picture?: string) => {
+  if(type == 'groups'){
+    targets.forEach((g) => {
+      const group = Group.make(g);
+      const messageChain = parseMsg(msg);
+      if(picture) messageChain.append(new Image(picture));
+      setTimeout(() => group.sendMessage(messageChain), 2000 * Math.random());
     });
-    let currentConfig: ISettingConfig = userConfig.data[currentConfigIndex];
-
-    dayjs.extend(toArray);
-    dayjs.extend(customParseFormat);
-    const formatedActionTime = dayjs(currentConfig.time, 'HH:mm').toArray();
-    if(formatedActionTime[3] == dayjs().get('hour') && formatedActionTime[4] == dayjs().get('minute') && !currentConfig.isTodayAction.groups){
-      currentConfig.groups.forEach((g) => {
-        const group = Group.make(g);
-        const messageChain = parseMsg(currentConfig.messages.groups);
-        if(currentConfig.pictures.groups !== '') messageChain.append(new Image(currentConfig.pictures.groups));
-        setTimeout(() => group.sendMessage(messageChain), 2000 * Math.random());
-      });
-      currentConfig.isTodayAction.groups = true;
-      userConfig.data[currentConfigIndex] = currentConfig;
-      await LiteLoader.api.config.set('auto_send_messages', userConfig);
-    }
-
-    if(formatedActionTime[3] == dayjs().get('hour') && formatedActionTime[4] == dayjs().get('minute') && !currentConfig.isTodayAction.chats){
-      currentConfig.chats.forEach((c) => {
-        const friend = Friend.fromUin(c);
-        const messageChain = parseMsg(currentConfig.messages.chats);
-        if(currentConfig.pictures.chats !== '') messageChain.append(new Image(currentConfig.pictures.chats));
-        setTimeout(() => friend.sendMessage(messageChain), 2000 * Math.random());
-      });
-      currentConfig.isTodayAction.chats = true;
-      userConfig.data[currentConfigIndex] = currentConfig;
-      await LiteLoader.api.config.set('auto_send_messages', userConfig);
-    }
-
-    const currentTime = `${dayjs().get('hour').toString()}:${dayjs().get('minute').toString()}`;
-    if(dayjs(currentConfig.time, 'HH:mm').isBefore(dayjs(currentTime, 'HH:mm'))){
-      currentConfig.isTodayAction.chats = false;
-      currentConfig.isTodayAction.groups = false;
-      userConfig.data[currentConfigIndex] = currentConfig;
-      await LiteLoader.api.config.set('auto_send_messages', userConfig);
-    }
-  }, 60000);
+  }
+  else{
+    targets.forEach((c) => {
+      const friend = Friend.fromUin(c);
+      const messageChain = parseMsg(msg);
+      if(picture) messageChain.append(new Image(picture));
+      setTimeout(() => friend.sendMessage(messageChain), 2000 * Math.random());
+    });
+  }
 };

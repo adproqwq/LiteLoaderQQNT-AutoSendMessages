@@ -1,8 +1,9 @@
 import sendMsg from '../utils/sendMsg';
+import checkTime from '../utils/checkTime';
 import getCurrentUin from '../utils/getCurrentUin';
 import { config, IConfig, ISettingConfig } from '../config/config';
 
-const onload = () => sendMsg();
+const onload = () => checkTime();
 onload();
 
 const getUserConfig = async (): Promise<[IConfig, ISettingConfig, number]> => {
@@ -39,6 +40,21 @@ export const onSettingWindowCreated = async (view: HTMLElement) => {
   (view.querySelector('#chats') as HTMLInputElement).value = currentConfig.chats.join(';');
   (view.querySelector('#time') as HTMLInputElement).value = currentConfig.time;
   (view.querySelector('#pluginVersion') as HTMLParagraphElement).innerHTML = LiteLoader.plugins.auto_send_messages.manifest.version;
+
+  (view.querySelector('#actionNow') as HTMLButtonElement).addEventListener('click', async () => {
+    let [userConfig, currentConfig, currentConfigIndex] = await getUserConfig();
+
+    if(currentConfig.pictures.groups === '') sendMsg('groups', currentConfig.groups, currentConfig.messages.groups);
+    else sendMsg('groups', currentConfig.groups, currentConfig.messages.groups, currentConfig.pictures.groups);
+    currentConfig.isTodayAction.groups = true;
+
+    if(currentConfig.pictures.chats === '') sendMsg('chats', currentConfig.chats, currentConfig.messages.chats);
+    else sendMsg('chats', currentConfig.chats, currentConfig.messages.chats, currentConfig.pictures.chats);
+    currentConfig.isTodayAction.chats = true;
+
+    userConfig.data[currentConfigIndex] = currentConfig;
+    await LiteLoader.api.config.set('auto_send_messages', userConfig);
+  });
 
   (view.querySelector('#groupsMessageContent') as HTMLInputElement).addEventListener('change', async (e) => {
     let [userConfig, currentConfig, currentConfigIndex] = await getUserConfig();
