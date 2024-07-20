@@ -2,6 +2,7 @@ export const config: IConfig = {
   data: [
     {
       uin: '-1',
+      mode: 'white',
       messages: {
         groups: '',
         chats: '',
@@ -35,6 +36,8 @@ export interface ISettingIsActionConfig {
 
 export interface ISettingConfig {
   uin: string;
+
+  mode: 'black' | 'white';
 
   messages: ISettingMessageConfig;
 

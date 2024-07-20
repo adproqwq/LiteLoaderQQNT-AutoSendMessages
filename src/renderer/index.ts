@@ -56,6 +56,13 @@ export const onSettingWindowCreated = async (view: HTMLElement) => {
     await LiteLoader.api.config.set('auto_send_messages', userConfig);
   });
 
+  (view.querySelector('#mode') as HTMLSelectElement).addEventListener('selected', async (e) => {
+    let [userConfig, currentConfig, currentConfigIndex] = await getUserConfig();
+    currentConfig.mode = e.detail.value;
+    userConfig.data[currentConfigIndex] = currentConfig;
+    await LiteLoader.api.config.set('auto_send_messages', userConfig);
+  });
+
   (view.querySelector('#groupsMessageContent') as HTMLInputElement).addEventListener('change', async (e) => {
     let [userConfig, currentConfig, currentConfigIndex] = await getUserConfig();
     currentConfig.messages.groups = (e.target as HTMLInputElement).value;

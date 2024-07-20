@@ -4,6 +4,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { config, IConfig, ISettingConfig } from '../config/config';
 import getCurrentUin from './getCurrentUin';
 import sendMsg from './sendMsg';
+import { Client, Group } from '../../LiteLoaderQQNT-Euphony/src';
 
 export default () => {
   setInterval(async () => {
@@ -15,12 +16,21 @@ export default () => {
     });
     let currentConfig: ISettingConfig = userConfig.data[currentConfigIndex];
 
+    let targets: string[] = [];
+    if(currentConfig.mode == 'black'){
+      const allGroups: Group[] = Client.getGroups();
+      allGroups.forEach((g) => {
+        if(!currentConfig.groups.includes(g.getId())) targets.push(g.getId());
+      });
+    }
+    else targets = currentConfig.groups;
+
     dayjs.extend(toArray);
     dayjs.extend(customParseFormat);
     const formatedActionTime = dayjs(currentConfig.time, 'HH:mm').toArray();
     if(formatedActionTime[3] == dayjs().get('hour') && formatedActionTime[4] == dayjs().get('minute') && !currentConfig.isTodayAction.groups){
-      if(currentConfig.pictures.groups === '') sendMsg('groups', currentConfig.groups, currentConfig.messages.groups);
-      else sendMsg('groups', currentConfig.groups, currentConfig.messages.groups, currentConfig.pictures.groups);
+      if(currentConfig.pictures.groups === '') sendMsg('groups', targets, currentConfig.messages.groups);
+      else sendMsg('groups', targets, currentConfig.messages.groups, currentConfig.pictures.groups);
       currentConfig.isTodayAction.groups = true;
       userConfig.data[currentConfigIndex] = currentConfig;
       await LiteLoader.api.config.set('auto_send_messages', userConfig);

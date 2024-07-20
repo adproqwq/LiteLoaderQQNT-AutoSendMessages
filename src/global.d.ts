@@ -129,3 +129,14 @@ declare namespace LiteLoader {
     get: <IConfig = unknown>(slug: string, default_config?: IConfig) => IConfig,
   }
 }
+
+declare interface LLSelectedEvent extends Event {
+  detail: {
+    name: string;
+    value: 'black' | 'white';
+  };
+};
+
+declare interface HTMLElementEventMap {
+  selected: LLSelectedEvent;
+}
