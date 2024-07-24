@@ -19,9 +19,9 @@ export default () => {
     let targets: string[] = [];
     if(currentConfig.mode == 'black'){
       const allGroups: Group[] = Client.getGroups();
-      allGroups.forEach((g) => {
+      for(const g of allGroups){
         if(!currentConfig.groups.includes(g.getId())) targets.push(g.getId());
-      });
+      }
     }
     else targets = currentConfig.groups;
 
