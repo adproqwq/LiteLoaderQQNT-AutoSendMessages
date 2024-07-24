@@ -41,6 +41,8 @@ export const onSettingWindowCreated = async (view: HTMLElement) => {
   (view.querySelector('#chats') as HTMLInputElement).value = currentConfig.chats.join(';');
   (view.querySelector('#time') as HTMLInputElement).value = currentConfig.time;
   (view.querySelector('#pluginVersion') as HTMLParagraphElement).innerHTML = LiteLoader.plugins.auto_send_messages.manifest.version;
+  if(currentConfig.mode == 'black') (view.querySelector('[data-value=black]') as HTMLOptionElement).click();
+  else (view.querySelector('[data-value=white]') as HTMLOptionElement).click();
 
   (view.querySelector('#actionNow') as HTMLButtonElement).addEventListener('click', async () => {
     let [userConfig, currentConfig, currentConfigIndex] = await getUserConfig();
