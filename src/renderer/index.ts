@@ -2,6 +2,7 @@ import sendMsg from '../utils/sendMsg';
 import checkTime from '../utils/checkTime';
 import getCurrentUin from '../utils/getCurrentUin';
 import { config, IConfig, ISettingConfig } from '../config/config';
+import { Group, Client } from '../../LiteLoaderQQNT-Euphony/src';
 
 const onload = () => checkTime();
 onload();
@@ -44,8 +45,17 @@ export const onSettingWindowCreated = async (view: HTMLElement) => {
   (view.querySelector('#actionNow') as HTMLButtonElement).addEventListener('click', async () => {
     let [userConfig, currentConfig, currentConfigIndex] = await getUserConfig();
 
-    if(currentConfig.pictures.groups === '') sendMsg('groups', currentConfig.groups, currentConfig.messages.groups);
-    else sendMsg('groups', currentConfig.groups, currentConfig.messages.groups, currentConfig.pictures.groups);
+    let targets: string[] = [];
+    if(currentConfig.mode == 'black'){
+      const allGroups: Group[] = Client.getGroups();
+      allGroups.forEach((g) => {
+        if(!currentConfig.groups.includes(g.getId())) targets.push(g.getId());
+      });
+    }
+    else targets = currentConfig.groups;
+
+    if(currentConfig.pictures.groups === '') sendMsg('groups', targets, currentConfig.messages.groups);
+    else sendMsg('groups', targets, currentConfig.messages.groups, currentConfig.pictures.groups);
     currentConfig.isTodayAction.groups = true;
 
     if(currentConfig.pictures.chats === '') sendMsg('chats', currentConfig.chats, currentConfig.messages.chats);
