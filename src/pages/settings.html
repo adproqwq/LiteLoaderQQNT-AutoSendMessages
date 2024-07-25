@@ -10,12 +10,14 @@
       <setting-item>
         <div>
           <setting-text>定时发送时间</setting-text>
-          <setting-text data-type="secondary">发送时间，填入 HH:mm 格式的时间。仅支持每一天。</setting-text>
+          <setting-text data-type="secondary">发送时间。填入 HH:mm 格式时间，在每一天的这个时间触发；填入一个数字，每隔……分钟触发</setting-text>
           <input id="time" type="text"></input>
         </div>
+      </setting-item>
+      <setting-item>
         <div>
           <setting-button id="actionNow" data-type="secondary">立即触发</setting-button>
-          <setting-text data-type="secondary">若手动触发，则今日不会自动触发发送。</setting-text>
+          <setting-text data-type="secondary">手动触发一次发送。</setting-text>
         </div>
       </setting-item>
     </setting-list>

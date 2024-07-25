@@ -12,12 +12,11 @@ export const config: IConfig = {
         chats: '',
       },
       groups: [],
+      targets: [],
       chats: [],
-      time: '',
-      isTodayAction: {
-        groups: false,
-        chats: false,
-      },
+      sendTime: '',
+      lastActTime: '',
+      isAct: false,
     },
   ],
 };
@@ -26,12 +25,6 @@ export interface ISettingMessageConfig {
   groups: string;
 
   chats: string;
-};
-
-export interface ISettingIsActionConfig {
-  groups: boolean;
-
-  chats: boolean;
 };
 
 export interface ISettingConfig {
@@ -45,11 +38,15 @@ export interface ISettingConfig {
 
   groups: string[];
 
+  targets: string[];
+
   chats: string[];
 
-  time: string;
+  sendTime: string;
 
-  isTodayAction: ISettingIsActionConfig;
+  lastActTime: string;
+
+  isAct: boolean;
 };
 
 export interface IConfig {

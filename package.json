@@ -1,6 +1,6 @@
 {
   "name": "liteloaderqqnt-auto-send-messages",
-  "version": "1.5.4",
+  "version": "1.6.0",
   "description": "A plugin for LiteLoaderQQNT. It can auto send messages to the groups. It is powered by Vite & Typescript",
   "main": "index.js",
   "scripts": {
@@ -15,7 +15,7 @@
     "@electron-toolkit/tsconfig": "^1.0.1",
     "@typescript-eslint/eslint-plugin": "8.0.0-alpha.40",
     "@typescript-eslint/parser": "8.0.0-alpha.40",
-    "electron": "^31.2.1",
+    "electron": "^31.3.0",
     "electron-vite": "^2.3.0",
     "eslint": "^9.7.0",
     "unplugin-zip-pack": "^1.0.2",

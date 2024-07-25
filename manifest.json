@@ -5,7 +5,7 @@
   "name": "定时消息",
   "slug": "auto_send_messages",
   "description": "定时自动发送消息，允许定时发送、定群发送、自定义消息内容",
-  "version": "1.5.4",
+  "version": "1.6.0",
   "icon": "./assets/icon.svg",
   "thumb": "./assets/icon.svg",
   "authors": [
@@ -32,7 +32,7 @@
     "repo": "adproqwq/LiteLoaderQQNT-AutoSendMessages",
     "branch": "main",
     "release": {
-      "tag": "v1.5.4",
+      "tag": "v1.6.0",
       "file": "auto_send_messages.zip"
     }
   },
