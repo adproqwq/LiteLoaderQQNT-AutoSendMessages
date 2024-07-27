@@ -31,6 +31,10 @@
 2. 将文件夹移动至 `LiteLoaderQQNT数据目录/plugins/` 下面
 3. 重启QQNT即可
 
+## 如何为本项目贡献代码
+
+请观看[贡献指南](./CONTRIBUTING.md)。
+
 ## 鸣谢
 * [LiteLoaderQQNT](https://github.com/LiteLoaderQQNT/LiteLoaderQQNT/)
 * [LiteLoaderQQNT-PluginTemplate-Vite](https://github.com/MisaLiu/LiteLoaderQQNT-PluginTemplate-Vite)
