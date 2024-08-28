@@ -1,0 +1,1 @@
+throw new Error('你正在使用源码包，请卸载该插件，并使用Release包重新安装！');
