@@ -1,5 +1,7 @@
 # LiteLoaderQQNT-AutoSendMessages
 
+LiteLoaderQQNT 1.2.0以下用户，请使用1.6.1版本插件！
+
 ## 目前支持
 本插件支持：
 1. 定时发送
