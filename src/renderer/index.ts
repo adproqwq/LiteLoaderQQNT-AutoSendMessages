@@ -4,11 +4,14 @@ import sendMsgEntry from '../utils/sendMsgEntry';
 import modifyTargets from '../utils/modifyTargets';
 import { config } from '../config/config';
 
-const onload = () => {
-  modifyTargets();
-  checkTime();
-}
-onload();
+LLASM.onLogin(() => {
+  const intervelWorker = new Worker(new URL('../workers/interval.ts', import.meta.url));
+  intervelWorker.postMessage('');
+  intervelWorker.onmessage = async (e) => {
+    if(e.data == 'modifyTargets') await modifyTargets();
+    else if(e.data == 'checkTime') await checkTime();
+  };
+});
 
 export const onSettingWindowCreated = async (view: HTMLElement) => {
   const pluginPath = LiteLoader.plugins.auto_send_messages.path.plugin;

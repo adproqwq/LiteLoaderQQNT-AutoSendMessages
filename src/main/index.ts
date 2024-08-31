@@ -1,4 +1,4 @@
-import { app, dialog, ipcMain } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 import { config, IConfig } from '../config/config';
 import { normalize } from 'node:path';
 
@@ -21,6 +21,11 @@ ipcMain.on('LLASM.openFileDialog', (_, type: 'chats' | 'groups', index: number) 
     }
   });
 });
+
+export const onLogin = () => {
+  const windows = BrowserWindow.getAllWindows();
+  windows[0].webContents.send('LLASM.onLogin');
+};
 
 app.whenReady().then(async () => {
   LiteLoader.api.setMinLoaderVer('auto_send_messages', '1.2.0');

@@ -56,6 +56,7 @@ declare interface ILiteLoaderManifestAuthorsConfig {
 
 declare namespace LLASM {
   const openFileDialog: (type: 'chats' | 'groups', index: number) => void;
+  const onLogin: (callback: () => void) => void;
 }
 
 declare namespace LiteLoader {
