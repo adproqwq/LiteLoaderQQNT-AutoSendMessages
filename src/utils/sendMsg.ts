@@ -1,7 +1,7 @@
 import { Group, Friend, Image } from '../../LiteLoaderQQNT-Euphony/src';
 import parseMsg from './parseMsg';
 
-export default (type: 'groups' | 'chats', targets: string[], msg: string, picture?: string) => {
+export default (type: 'groups' | 'chats', targets: string[], msg: string, picture: string) => {
   if(type == 'groups'){
     targets.forEach((g) => {
       const group = Group.make(g);

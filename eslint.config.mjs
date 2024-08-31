@@ -3,7 +3,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import typescriptEslint from '@typescript-eslint/eslint-plugin';
 import typescriptEslintParser from '@typescript-eslint/parser';
-import js from '@eslint/js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,7 +12,6 @@ const compat = new FlatCompat({
 });
 
 export default [
-  js.configs.recommended,
   ...compat.extends('plugin:@typescript-eslint/recommended'),
   {
     plugins: {

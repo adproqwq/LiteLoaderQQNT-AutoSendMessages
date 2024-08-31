@@ -1,24 +1,19 @@
-export const config: IConfig = {
-  data: [
-    {
-      uin: '-1',
-      mode: 'white',
-      messages: {
-        groups: '',
-        chats: '',
-      },
-      pictures: {
-        groups: '',
-        chats: '',
-      },
-      groups: [],
-      targets: [],
-      chats: [],
-      sendTime: '',
-      lastActTime: '',
-      isAct: false,
-    },
-  ],
+export const config: ISettingConfig = {
+  mode: 'white',
+  messages: {
+    groups: '',
+    chats: '',
+  },
+  pictures: {
+    groups: '',
+    chats: '',
+  },
+  groups: [],
+  targets: [],
+  chats: [],
+  sendTime: '',
+  lastActTime: '',
+  isAct: false,
 };
 
 export interface ISettingMessageConfig {
@@ -28,8 +23,6 @@ export interface ISettingMessageConfig {
 };
 
 export interface ISettingConfig {
-  uin: string;
-
   mode: 'black' | 'white';
 
   messages: ISettingMessageConfig;
@@ -47,8 +40,4 @@ export interface ISettingConfig {
   lastActTime: string;
 
   isAct: boolean;
-};
-
-export interface IConfig {
-  data: ISettingConfig[];
 };

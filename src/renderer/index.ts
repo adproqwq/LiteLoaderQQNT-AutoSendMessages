@@ -1,11 +1,12 @@
 import checkTime from '../utils/checkTime';
-import getCurrentConfig from '../utils/getCurrentConfig';
+import { readConfig, writeConfig } from '../utils/config';
 import sendMsgEntry from '../utils/sendMsgEntry';
 import modifyTargets from '../utils/modifyTargets';
 import { config } from '../config/config';
 
 LLASM.onLogin(() => {
-  const intervelWorker = new Worker(new URL('../workers/interval.ts', import.meta.url));
+  const pluginPath = LiteLoader.plugins.auto_send_messages.path.plugin;
+  const intervelWorker = new Worker(`local:///${pluginPath}/workers/interval.js`);
   intervelWorker.postMessage('');
   intervelWorker.onmessage = async (e) => {
     if(e.data == 'modifyTargets') await modifyTargets();
@@ -14,8 +15,9 @@ LLASM.onLogin(() => {
 });
 
 export const onSettingWindowCreated = async (view: HTMLElement) => {
+  const uid = await LLASM.getUid();
   const pluginPath = LiteLoader.plugins.auto_send_messages.path.plugin;
-  let [_, currentConfig, currentConfigIndex] = await getCurrentConfig(true);
+  let currentConfig = await readConfig(uid);
 
   view.innerHTML = await (await fetch(`local:///${pluginPath}/pages/settings.html`)).text();
   (view.querySelector('#groupsMessageContent') as HTMLInputElement).value = currentConfig.messages.groups;
@@ -29,74 +31,66 @@ export const onSettingWindowCreated = async (view: HTMLElement) => {
   if(currentConfig.mode == 'black') (view.querySelector('[data-value=black]') as HTMLOptionElement).click();
   else (view.querySelector('[data-value=white]') as HTMLOptionElement).click();
 
-  (view.querySelector('#actionNow') as HTMLButtonElement).addEventListener('click', async () => {
-    const [userConfig, currentConfig, currentConfigIndex] = await getCurrentConfig(true);
+  (view.querySelector('#actNow') as HTMLButtonElement).addEventListener('click', async () => {
+    const currentConfig = await readConfig(uid);
 
-    await sendMsgEntry(userConfig, currentConfig, currentConfigIndex, currentConfig.targets);
+    await sendMsgEntry(currentConfig, currentConfig.targets);
   });
 
   (view.querySelector('#mode') as HTMLSelectElement).addEventListener('selected', async (e) => {
-    let [userConfig, currentConfig, currentConfigIndex] = await getCurrentConfig(true);
+    let currentConfig = await readConfig(uid);
     currentConfig.mode = e.detail.value;
-    userConfig.data[currentConfigIndex] = currentConfig;
-    await LiteLoader.api.config.set('auto_send_messages', userConfig);
+    writeConfig(uid, currentConfig);
   });
 
   (view.querySelector('#groupsMessageContent') as HTMLInputElement).addEventListener('change', async (e) => {
-    let [userConfig, currentConfig, currentConfigIndex] = await getCurrentConfig(true);
+    let currentConfig = await readConfig(uid);
     currentConfig.messages.groups = (e.target as HTMLInputElement).value;
-    userConfig.data[currentConfigIndex] = currentConfig;
-    await LiteLoader.api.config.set('auto_send_messages', userConfig);
+    writeConfig(uid, currentConfig);
   });
 
-  (view.querySelector('#openPictureGroups') as HTMLButtonElement).addEventListener('click', () => {
-    LLASM.openFileDialog('groups', currentConfigIndex);
+  (view.querySelector('#openPictureGroups') as HTMLButtonElement).addEventListener('click', async () => {
+    LLASM.openFileDialog('groups', uid);
   });
 
   (view.querySelector('#rmPictureGroups') as HTMLButtonElement).addEventListener('click', async () => {
-    let [userConfig, currentConfig, currentConfigIndex] = await getCurrentConfig(true);
+    let currentConfig = await readConfig(uid);
     currentConfig.pictures.groups = '';
-    userConfig.data[currentConfigIndex] = currentConfig;
-    await LiteLoader.api.config.set('auto_send_messages', userConfig);
+    writeConfig(uid, currentConfig);
   });
 
   (view.querySelector('#groups') as HTMLInputElement).addEventListener('change', async (e) => {
-    let [userConfig, currentConfig, currentConfigIndex] = await getCurrentConfig(true);
+    let currentConfig = await readConfig(uid);
     currentConfig.groups = (e.target as HTMLInputElement).value.split(';');
-    userConfig.data[currentConfigIndex] = currentConfig;
-    await LiteLoader.api.config.set('auto_send_messages', userConfig);
+    writeConfig(uid, currentConfig);
   });
 
   (view.querySelector('#chats') as HTMLInputElement).addEventListener('change', async (e) => {
-    let [userConfig, currentConfig, currentConfigIndex] = await getCurrentConfig(true);
+    let currentConfig = await readConfig(uid);
     currentConfig.chats = (e.target as HTMLInputElement).value.split(';');
-    userConfig.data[currentConfigIndex] = currentConfig;
-    await LiteLoader.api.config.set('auto_send_messages', userConfig);
+    writeConfig(uid, currentConfig);
   });
 
   (view.querySelector('#chatsMessageContent') as HTMLInputElement).addEventListener('change', async (e) => {
-    let [userConfig, currentConfig, currentConfigIndex] = await getCurrentConfig(true);
+    let currentConfig = await readConfig(uid);
     currentConfig.messages.chats = (e.target as HTMLInputElement).value;
-    userConfig.data[currentConfigIndex] = currentConfig;
-    await LiteLoader.api.config.set('auto_send_messages', userConfig);
+    writeConfig(uid, currentConfig);
   });
 
-  (view.querySelector('#openPictureChats') as HTMLButtonElement).addEventListener('click', () => {
-    LLASM.openFileDialog('chats', currentConfigIndex);
+  (view.querySelector('#openPictureChats') as HTMLButtonElement).addEventListener('click', async () => {
+    LLASM.openFileDialog('chats', uid);
   });
 
   (view.querySelector('#rmPictureChats') as HTMLButtonElement).addEventListener('click', async () => {
-    let [userConfig, currentConfig, currentConfigIndex] = await getCurrentConfig(true);
+    let currentConfig = await readConfig(uid);
     currentConfig.pictures.chats = '';
-    userConfig.data[currentConfigIndex] = currentConfig;
-    await LiteLoader.api.config.set('auto_send_messages', userConfig);
+    writeConfig(uid, currentConfig);
   });
 
   (view.querySelector('#time') as HTMLInputElement).addEventListener('change', async (e) => {
-    let [userConfig, currentConfig, currentConfigIndex] = await getCurrentConfig(true);
+    let currentConfig = await readConfig(uid);
     currentConfig.sendTime = (e.target as HTMLInputElement).value;
-    userConfig.data[currentConfigIndex] = currentConfig;
-    await LiteLoader.api.config.set('auto_send_messages', userConfig);
+    writeConfig(uid, currentConfig);
   });
 
   (view.querySelector('#github') as HTMLButtonElement).addEventListener('click', () => {
@@ -108,6 +102,6 @@ export const onSettingWindowCreated = async (view: HTMLElement) => {
   });
 
   (view.querySelector('#fixDataFormat') as HTMLButtonElement).addEventListener('click', async () => {
-    await LiteLoader.api.config.set('auto_send_messages', config);
+    writeConfig(uid, config);
   });
 };

@@ -58,6 +58,7 @@ export default defineConfig({
           { src: './manifest.json', dest: 'dist' },
           { src: './changeLog.md', dest: 'dist' },
           { src: './src/pages', dest: 'dist/pages' },
+          { src: './src/workers', dest: 'dist/workers' },
           { src: './assets', dest: 'dist/assets' },
         ],
       }),

@@ -55,8 +55,10 @@ declare interface ILiteLoaderManifestAuthorsConfig {
 };
 
 declare namespace LLASM {
-  const openFileDialog: (type: 'chats' | 'groups', index: number) => void;
-  const onLogin: (callback: () => void) => void;
+  const openFileDialog: (type: 'chats' | 'groups', uid: string) => void;
+  const onLogin: (callback: (event: Electron.IpcRendererEvent) => void) => void;
+  const writeConfig: (uid: string, config: ISettingConfig) => void;
+  const getUid: () => Promise<string>;
 }
 
 declare namespace LiteLoader {

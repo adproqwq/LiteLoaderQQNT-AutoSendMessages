@@ -1,11 +1,10 @@
-import getCurrentConfig from './getCurrentConfig';
+import { readConfig, writeConfig } from './config';
 import getGroupTargets from './getGroupTargets';
 
 export default async () => {
-  let [userConfig, currentConfig, currentConfigIndex] = await getCurrentConfig(false);
+  let currentConfig = await readConfig(await LLASM.getUid());
 
   const targets = getGroupTargets(currentConfig);
   currentConfig.targets = targets;
-  userConfig.data[currentConfigIndex] = currentConfig;
-  await LiteLoader.api.config.set('auto_send_messages', userConfig);
+  writeConfig(await LLASM.getUid(), currentConfig);
 };
