@@ -9,8 +9,7 @@ LLASM.onLogin(() => {
   const intervelWorker = new Worker(`local:///${pluginPath}/workers/interval.js`);
   intervelWorker.postMessage('');
   intervelWorker.onmessage = async (e) => {
-    if(e.data == 'modifyTargets') await modifyTargets();
-    else if(e.data == 'checkTime') await checkTime();
+    if(e.data == 'checkTime') await checkTime();
   };
 });
 
@@ -41,6 +40,7 @@ export const onSettingWindowCreated = async (view: HTMLElement) => {
     let currentConfig = await readConfig(uid);
     currentConfig.mode = e.detail.value;
     writeConfig(uid, currentConfig);
+    await modifyTargets();
   });
 
   (view.querySelector('#groupsMessageContent') as HTMLInputElement).addEventListener('change', async (e) => {
@@ -63,6 +63,7 @@ export const onSettingWindowCreated = async (view: HTMLElement) => {
     let currentConfig = await readConfig(uid);
     currentConfig.groups = (e.target as HTMLInputElement).value.split(';');
     writeConfig(uid, currentConfig);
+    await modifyTargets();
   });
 
   (view.querySelector('#chats') as HTMLInputElement).addEventListener('change', async (e) => {
